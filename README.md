@@ -64,12 +64,15 @@ for visualizing and working with the resulting polyline.
 Starting image is the same as above ([`grid1.png`](/samples/grid1.png)).
 
 Here's the binarized version:
+
 ![Binary version](images/grid1.bin.png)
 
 Here's the result of skeletonization (yellow line overlaid on the original image):
+
 ![Skeleton](images/grid1.skel.png)
 
 Here are the Zhang-Suen nodes:
+
 ![Zhang-Suen nodes](images/grid1.zhang-suen.png)
 
 It's a bit hard to see because the nodes are so close together, but there are two nodes
@@ -77,6 +80,7 @@ at the four-way intersection in the center of the image and three nodes at two o
 four-way intersections at the bottom of the image. These will have to be merged later.
 
 Here's the results of the initial breadth-first search (flood fill):
+
 ![Paths, first take](images/grid1.paths-take1.png)
 
 Not bad! Now it's time to merge nearby nodes. First the duplicated nodes at the four-way
