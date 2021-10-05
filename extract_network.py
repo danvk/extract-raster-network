@@ -25,7 +25,6 @@ from PIL import Image
 from skimage import morphology, segmentation
 
 
-
 def find_color(im: Image, rgb: Tuple[int]) -> np.ndarray:
     """Given an RGB image, return an ndarray with 1s where the pixel is the given color."""
     px = np.asarray(im)
@@ -260,12 +259,17 @@ def connect_graph(skel: np.ndarray, min_distance: int) -> nx.MultiGraph:
     return make_graph(nodes, edges)
 
 
+def simplify_paths(g: nx.Graph, tolerance=1) -> nx.Graph:
+    for n1, n2, k in g.edges(keys=True):
+        g[n1][n2][k]['path'] = shapely.geometry.LineString(g[n1][n2][k]['path']).simplify(tolerance)
+    return g
+
+
 def extract_network(px: np.ndarray, min_distance=8) -> nx.Graph:
     skel = morphology.skeletonize(px)
     print(f'Skeleton px={skel.sum()}')
     g = connect_graph(skel, min_distance)
-    for n1, n2, k in g.edges(keys=True):
-        g[n1][n2][k]['path'] = shapely.geometry.LineString(g[n1][n2][k]['path']).simplify(1)
+    g = simplify_paths(g)
     return g
 
 
@@ -364,6 +368,7 @@ if __name__ == '__main__':
 
     im = Image.open(png_file)
     px = find_color(im, rgb).T
+
     print(f'Street RGB: {rgb}')
     print(f'Street pixels: {px.sum()}')
     g = extract_network(px)
@@ -372,10 +377,16 @@ if __name__ == '__main__':
     print(f'  - {len(g.edges())} edges')
 
     skel = morphology.skeletonize(px)
-    render_skeleton(im, skel, complement(rgb)).save(png_file.replace('.png', '.skel.png'))
+    skel_path = png_file.replace('.png', '.skel.png')
+    render_skeleton(im, skel, complement(rgb)).save(skel_path)
+    print(f'Wrote {skel_path}')
 
     out_path = png_file.replace('.png', '.grid.png')
     render_network(im, g, complement(rgb)).save(out_path)
+    print(f'Wrote {out_path}')
+
     fc = network_to_geojson(g)
-    with open(png_file.replace('.png', '.grid.geojson'), 'w') as out:
+    geojson_path = png_file.replace('.png', '.grid.geojson')
+    with open(geojson_path, 'w') as out:
         json.dump(fc, out)
+    print(f'Wrote {geojson_path}')
