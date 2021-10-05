@@ -149,12 +149,14 @@ def is_valid_self_loop(path: List[Tuple[int, int]], min_self_loop_distance: int)
     return len([c for c, n in Counter(path).items() if n >= 2]) == 1
 
 
-def find_paths(skel: np.ndarray, nodes: List[Tuple[int]], min_self_loop_distance=5) -> List[Path]:
+def find_paths(skel: np.ndarray, nodes: List[Tuple[int]], min_distance=5) -> List[Path]:
     """Find paths between nodes in the graph using the connectivity in the skeleton.
 
     This returns a list of edges (pairs of nodes) with the following properties.
         - path: list of coordinates connecting the nodes (including the nodes)
         - d: length of the path
+
+    This will early-out if a path shorter than min_distance is found.
 
     There may be multiple distinct paths between the same nodes, or a path between a node and itself.
     """
@@ -205,9 +207,12 @@ def find_paths(skel: np.ndarray, nodes: List[Tuple[int]], min_self_loop_distance
                         new_path = Path(start, stop, path)
                         # Ignore redundant paths and short self-loops
                         if is_new_path(edges, new_path) and (
-                            start != stop or is_valid_self_loop(path, min_self_loop_distance)
+                            start != stop or is_valid_self_loop(path, min_distance)
                         ):
                             edges.append(new_path)
+                            if len(path) - 1 < min_distance:
+                                # This edge will get pruned out anyway, so no need to keep looking.
+                                return edges
 
         frontier = next_frontier
 
