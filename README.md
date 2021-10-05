@@ -10,6 +10,8 @@ See this [Stack Overflow question][1] for details.
     pip install -r requirements.txt
     ./extract_network.py samples/grid1.png '(0, 0, 255)'
 
+This writes `samples/grid1.grid.geojson` and `samples/grid1.grid.png`.
+
 ## What this does
 
 This takes a raster (PNG) image containing some kind of network (e.g. a street grid):
@@ -113,6 +115,12 @@ it may be a better reflection of the street's true (vector) shape before rasteri
 Here's the final result:
 
 ![Final result of network extraction](images/grid1.final.png)
+
+## Development
+
+To run the tests:
+
+    pytest
 
 ## References
 

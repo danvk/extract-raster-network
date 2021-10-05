@@ -1,6 +1,6 @@
 import numpy as np
 
-from locust.geometry.extract_network import find_paths, is_new_path, Path
+from extract_network import find_paths, is_new_path, Path
 
 
 def test_is_new_path():
