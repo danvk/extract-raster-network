@@ -146,7 +146,7 @@ def is_valid_self_loop(path: List[Tuple[int, int]], min_self_loop_distance: int)
     if len(path) < min_self_loop_distance:
         return False
     # Only the end node can appear twice in a self-loop
-    return len([c for c, n in Counter(path) if n >= 2]) == 1
+    return len([c for c, n in Counter(path).items() if n >= 2]) == 1
 
 
 def find_paths(skel: np.ndarray, nodes: List[Tuple[int]], min_self_loop_distance=5) -> List[Path]:

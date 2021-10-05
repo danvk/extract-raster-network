@@ -27,6 +27,7 @@ Here are some more complex examples including multiple paths between two nodes a
 self-loop:
 
 ![More complex grid feature two paths between nodes](images/grid2.grid.png)
+![More complex grid featuring a self-loop](images/grid3.grid.png)
 
 ## Algorithm
 
