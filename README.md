@@ -127,9 +127,12 @@ To run the tests:
 - [Stack Overflow question][1]
 - [NEFI2][2], a GUI app for Network Extraction. See also [their 2018 paper][3].
 
+This repo includes code from NEFI2; see their [license][].
+
 [1]: https://stackoverflow.com/questions/69398683/extract-street-network-from-a-raster-image
 [2]: https://github.com/05dirnbe/nefi
 [3]: https://arxiv.org/pdf/1502.05241.pdf
 [skel]: https://scikit-image.org/docs/stable/auto_examples/edges/plot_skeleton.html
 [simplify]: https://shapely.readthedocs.io/en/stable/manual.html#object.simplify
 [nefi]: https://github.com/05dirnbe/nefi/blob/260b2717ebc5fb94b2a241c5b73540b41f3dc6bf/nefi2/model/algorithms/guo_hall.py#L63
+[license]: https://github.com/05dirnbe/nefi/blob/master/LICENSE
